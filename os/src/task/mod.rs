@@ -90,6 +90,10 @@ impl TaskManager {
         panic!("unreachable in run_first_task!");
     }
 
+    fn get_current_task_id(&self) -> usize {
+        let inner = self.inner.exclusive_access();
+        inner.current_task
+    }
     /// Change the status of current `Running` task into `Ready`.
     fn mark_current_suspended(&self) {
         let mut inner = self.inner.exclusive_access();
@@ -140,6 +144,11 @@ impl TaskManager {
 /// Run the first task in task list.
 pub fn run_first_task() {
     TASK_MANAGER.run_first_task();
+}
+
+/// get id
+pub fn get_current_task_id() -> usize {
+    TASK_MANAGER.get_current_task_id()
 }
 
 /// Switch current `Running` task to the task we have found,
